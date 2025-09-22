@@ -116,10 +116,10 @@
 
       async function load() {
         try {
-          const list = await fetchJSON('/data/index.json');
+          const list = await fetchJSON('data/index.json');
           const days = [];
           for (const file of list) {
-            const day = await fetchJSON('/data/entries/' + file);
+            const day = await fetchJSON('data/entries/' + file);
             days.push(day);
           }
           render(days);

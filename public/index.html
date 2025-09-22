@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Consumed</title>
+    <meta name="description" content="Daily log of things I've consumed: text, audio, video" />
+    <link rel="icon" href="/assets/favicon.ico" />
+    <style>
+      :root {
+        --bg: #0b0c10;
+        --card: #111318;
+        --fg: #e6edf3;
+        --muted: #9ba3af;
+        --accent: #6ee7b7;
+      }
+      html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; }
+      .container { max-width: 820px; margin: 0 auto; padding: 2rem 1rem 5rem; }
+      header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+      h1 { font-size: 1.5rem; margin: 0; }
+      nav a { color: var(--muted); margin-left: 1rem; text-decoration: none; }
+      nav a:hover { color: var(--fg); }
+      .day { background: var(--card); border: 1px solid #1f2937; border-radius: 12px; padding: 1rem 1.2rem; margin: 1rem 0; }
+      .day h2 { margin: 0 0 .5rem; font-size: 1rem; color: var(--accent); }
+      .item { padding: .6rem 0; border-top: 1px dashed #222a35; }
+      .item:first-child { border-top: 0; }
+      .type { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+      .title { font-weight: 600; }
+      .meta { color: var(--muted); font-size: .9rem; }
+      .notes { margin-top: .3rem; white-space: pre-wrap; }
+      footer { margin-top: 3rem; color: var(--muted); font-size: .9rem; }
+      .tag { display: inline-block; border: 1px solid #334155; color: #c7d2fe; padding: 1px 6px; border-radius: 999px; font-size: .75rem; margin-right: .4rem; }
+      .filters { margin: 1rem 0; }
+      .filters select, .filters input { background: #0f172a; border: 1px solid #243244; color: var(--fg); padding: .4rem .6rem; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Consumed</h1>
+        <nav>
+          <a href="https://consumed.today" rel="noopener noreferrer">inspired by consumed.today</a>
+          <a href="https://github.com/ALGOGUY09/consumedbysk" rel="noopener noreferrer">source</a>
+        </nav>
+      </header>
+
+      <div class="filters">
+        <label>Type: <select id="typeFilter">
+          <option value="">All</option>
+          <option>text</option>
+          <option>audio</option>
+          <option>video</option>
+          <option>image</option>
+          <option>link</option>
+          <option>note</option>
+        </select></label>
+        <label style="margin-left:1rem">Search: <input id="searchBox" placeholder="title, author, notes, tag" /></label>
+      </div>
+
+      <main id="app"></main>
+
+      <footer>
+        Built as a static site. Update JSON files to add new days.
+      </footer>
+    </div>
+
+    <script>
+      const app = document.getElementById('app');
+      const typeFilter = document.getElementById('typeFilter');
+      const searchBox = document.getElementById('searchBox');
+
+      async function fetchJSON(path) {
+        const res = await fetch(path);
+        if (!res.ok) throw new Error('Failed to fetch ' + path);
+        return res.json();
+      }
+
+      function itemHTML(it) {
+        const by = it.by ? ` · <span class="meta">by ${escapeHTML(it.by)}</span>` : '';
+        const dur = it.duration ? ` · <span class="meta">${escapeHTML(it.duration)}</span>` : '';
+        const tags = Array.isArray(it.tags) ? it.tags.map(t => `<span class="tag">${escapeHTML(t)}</span>`).join('') : '';
+        const title = it.url ? `<a class="title" href="${escapeAttr(it.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(it.title)}</a>` : `<span class="title">${escapeHTML(it.title)}</span>`;
+        const notes = it.notes ? `<div class="notes">${linkify(escapeHTML(it.notes))}</div>` : '';
+        return `
+          <div class="item">
+            <div class="type">${escapeHTML(it.type || 'note')}</div>
+            <div>${title}${by}${dur}</div>
+            ${tags ? `<div style="margin-top:.25rem">${tags}</div>` : ''}
+            ${notes}
+          </div>
+        `;
+      }
+
+      function escapeHTML(s='') { return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])); }
+      function escapeAttr(s='') { return s.replace(/["'<>\n\r]/g, ''); }
+      function linkify(text) {
+        const urlRe = /(https?:\/\/[^\s]+)/g; return text.replace(urlRe, '<a href="$1" target="_blank" rel="noopener noreferrer">$1<\/a>');
+      }
+
+      function render(days) {
+        const q = searchBox.value.trim().toLowerCase();
+        const t = typeFilter.value;
+        app.innerHTML = days.map(day => {
+          const items = day.items.filter(it => {
+            if (t && (it.type||'') !== t) return false;
+            if (!q) return true;
+            const hay = [it.title, it.by, it.notes, ...(it.tags||[])].filter(Boolean).join(' ').toLowerCase();
+            return hay.includes(q);
+          }).map(itemHTML).join('');
+          if (!items) return '';
+          const d = new Date(day.date);
+          const dStr = d.toLocaleDateString(undefined, { weekday:'short', year:'numeric', month:'short', day:'numeric' });
+          return `<section class="day"><h2>${escapeHTML(dStr)}</h2>${items}</section>`;
+        }).join('');
+      }
+
+      async function load() {
+        try {
+          const list = await fetchJSON('/data/index.json');
+          const days = [];
+          for (const file of list) {
+            const day = await fetchJSON('/data/entries/' + file);
+            days.push(day);
+          }
+          render(days);
+          typeFilter.addEventListener('change', () => render(days));
+          searchBox.addEventListener('input', () => render(days));
+        } catch (e) {
+          app.innerHTML = `<p style="color:#fca5a5">${escapeHTML(e.message)}</p>`;
+        }
+      }
+      load();
+    </script>
+  </body>
+</html>

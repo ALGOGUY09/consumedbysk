@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#FEF7E0">
+    <meta name="description" content="Track your media consumption - books, podcasts, videos, and more">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Media Diary">
+    <title>Media Diary</title>
+    
+    <!-- Google Fonts - Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <!-- Inline Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWVkaWEgRGlhcnkgLSBUcmFjayBZb3VyIE1lZGlhIENvbnN1bXB0aW9uIiwic2hvcnRfbmFtZSI6Ik1lZGlhIERpYXJ5IiwiZGVzY3JpcHRpb24iOiJUcmFjayBib29rcywgcG9kY2FzdHMsIHZpZGVvcywgYW5kIG90aGVyIG1lZGlhIHlvdSBjb25zdW1lIGRhaWx5Iiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGRUY3RTAiLCJ0aGVtZV9jb2xvciI6IiNGRUY3RTAiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0LXByaW1hcnkiLCJzY29wZSI6Ii8iLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRreklpQm9aV2xuYUhROUlqRTVNaUlnZG1sbGQwSnZlRDBpTUNBd0lESTBJREkwSWlCbWFXeHNQU0lqUmtWR04wVXdJaUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQanh5WldOMElIZHBaSFJvUFNJeU5DSWdhR1ZwWjJoMFBTSXlOQ0lnWm1sc2JEMGlJMFpGUmpkRk1DSWdjbmc5SWpRaUx6NDhjR0YwYUNCa1BTSk5OQ0EyYURGakxqVXVNQ0F3SURFdE1TQXhkakV5WXk0d0xqVXVOU0F4SURFdGFERTBZeTQxSURBdE1DNDBMVFV1TlMweElERXRNVll4TUdFeFlTNHhMakVnTUNBd0lERXRNaTB3V2lJZ1ptbHNiRDBpSTJabVppSXZQanh3WVhSb0lHUTlJazB4TUNBeE1HZ3hNbll5U0RFd00xWXhNR2d5ZGpKb01uWXlTREV3ZGpKb01uWXlXaUlnWm1sc2JEMGlJMlptWmlJdlBqd3ZjM1puUGc9PSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=">
+    
+    <style>
+        /* Material 3 Design System - Light Yellow Theme */
+        :root {
+            /* Primary - Yellow */
+            --md-sys-color-primary: #7C5800;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #FFDEA5;
+            --md-sys-color-on-primary-container: #271900;
+            
+            /* Secondary - Warm Yellow */
+            --md-sys-color-secondary: #6F5B40;
+            --md-sys-color-on-secondary: #FFFFFF;
+            --md-sys-color-secondary-container: #FADCBB;
+            --md-sys-color-on-secondary-container: #271904;
+            
+            /* Tertiary - Golden */
+            --md-sys-color-tertiary: #51643F;
+            --md-sys-color-on-tertiary: #FFFFFF;
+            --md-sys-color-tertiary-container: #D4EABB;
+            --md-sys-color-on-tertiary-container: #102004;
+            
+            /* Error */
+            --md-sys-color-error: #BA1A1A;
+            --md-sys-color-on-error: #FFFFFF;
+            --md-sys-color-error-container: #FFDAD6;
+            --md-sys-color-on-error-container: #410002;
+            
+            /* Background */
+            --md-sys-color-background: #FFFBFF;
+            --md-sys-color-on-background: #1F1B16;
+            
+            /* Surface */
+            --md-sys-color-surface: #FEF7E0;
+            --md-sys-color-on-surface: #1F1B16;
+            --md-sys-color-surface-variant: #F0E0CF;
+            --md-sys-color-on-surface-variant: #4F4539;
+            
+            /* Surface Containers */
+            --md-sys-color-surface-container-lowest: #FFFFFF;
+            --md-sys-color-surface-container-low: #FFF8F0;
+            --md-sys-color-surface-container: #FEF7E0;
+            --md-sys-color-surface-container-high: #F8EDDA;
+            --md-sys-color-surface-container-highest: #E8E0CC;
+            
+            /* Outline */
+            --md-sys-color-outline: #817567;
+            --md-sys-color-outline-variant: #D3C4B4;
+            
+            /* Elevation */
+            --md-sys-elevation-1: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+            --md-sys-elevation-2: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+            --md-sys-elevation-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3);
+            --md-sys-elevation-4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3);
+            --md-sys-elevation-5: 0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3);
+            
+            /* Shape */
+            --md-sys-shape-corner-none: 0px;
+            --md-sys-shape-corner-extra-small: 4px;
+            --md-sys-shape-corner-small: 8px;
+            --md-sys-shape-corner-medium: 12px;
+            --md-sys-shape-corner-large: 16px;
+            --md-sys-shape-corner-extra-large: 28px;
+            --md-sys-shape-corner-full: 9999px;
+            
+            /* Motion */
+            --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+            --md-sys-motion-duration-short1: 50ms;
+            --md-sys-motion-duration-short2: 100ms;
+            --md-sys-motion-duration-short3: 150ms;
+            --md-sys-motion-duration-short4: 200ms;
+            --md-sys-motion-duration-medium1: 250ms;
+            --md-sys-motion-duration-medium2: 300ms;
+            --md-sys-motion-duration-medium3: 350ms;
+            --md-sys-motion-duration-medium4: 400ms;
+            --md-sys-motion-duration-long1: 450ms;
+            --md-sys-motion-duration-long2: 500ms;
+            --md-sys-motion-duration-long3: 550ms;
+            --md-sys-motion-duration-long4: 600ms;
+        }
+
+        /* Material Symbols Settings */
+        .material-symbols-rounded {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+            user-select: none;
+        }
+
+        .material-symbols-rounded.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            min-height: 100%;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--md-sys-color-on-background);
+            background: var(--md-sys-color-background);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, var(--md-sys-color-surface-container-low), var(--md-sys-color-background));
+        }
+
+        /* Material 3 Navigation Bar */
+        .nav-bar {
+            background: var(--md-sys-color-surface-container);
+            box-shadow: var(--md-sys-elevation-2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .nav-title {
+            font-size: 1.375rem;
+            font-weight: 400;
+            color: var(--md-sys-color-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Material 3 Navigation Rail */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            padding: 0 1rem 1rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--md-sys-color-on-surface-variant);
+            text-decoration: none;
+            border-radius: var(--md-sys-shape-corner-full);
+            white-space: nowrap;
+            transition: all var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
+            cursor: pointer;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--md-sys-color-primary);
+            opacity: 0;
+            transition: opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+        }
+
+        .nav-menu a:hover::before {
+            opacity: 0.08;
+        }
+
+        .nav-menu a:focus-visible {
+            outline: 2px solid var(--md-sys-color-primary);
+            outline-offset: 2px;
+        }
+
+        .nav-menu a.active {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Material 3 Cards */
+        .card {
+            background: var(--md-sys-color-surface-container-lowest);
+            border-radius: var(--md-sys-shape-corner-medium);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--md-sys-elevation-1);
+            transition: all var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            box-shadow: var(--md-sys-elevation-2);
+            background: var(--md-sys-color-surface-container-low);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body {
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.5;
+        }
+
+        /* Material 3 Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            font-size: 0.875rem;
+            letter-spacing: 0.1px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: var(--md-sys-shape-corner-extra-small);
+            background: var(--md-sys-color-surface-container-lowest);
+            color: var(--md-sys-color-on-surface);
+            font-size: 1rem;
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+            font-family: inherit;
+        }
+
+        .form-input:hover,
+        .form-select:hover,
+        .form-textarea:hover {
+            background: var(--md-sys-color-surface-container-low);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--md-sys-color-primary);
+            border-width: 2px;
+            padding: calc(1rem - 1px);
+            background: var(--md-sys-color-surface-container-lowest);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Material 3 Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.5rem;
+            border: none;
+            border-radius: var(--md-sys-shape-corner-full);
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.1px;
+            cursor: pointer;
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            text-transform: none;
+            font-family: inherit;
+            height: 40px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: currentColor;
+            opacity: 0;
+            transition: opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+        }
+
+        .btn:hover::before {
+            opacity: 0.08;
+        }
+
+        .btn:active::before {
+            opacity: 0.12;
+        }
+
+        .btn-filled {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            box-shadow: var(--md-sys-elevation-1);
+        }
+
+        .btn-filled:hover {
+            box-shadow: var(--md-sys-elevation-2);
+        }
+
+        .btn-tonal {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        .btn-outlined {
+            background: transparent;
+            color: var(--md-sys-color-primary);
+            border: 1px solid var(--md-sys-color-outline);
+        }
+
+        .btn-text {
+            background: transparent;
+            color: var(--md-sys-color-primary);
+            padding: 0.625rem 0.75rem;
+        }
+
+        .btn-danger {
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container);
+        }
+
+        /* Material 3 FAB */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: var(--md-sys-shape-corner-large);
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border: none;
+            box-shadow: var(--md-sys-elevation-3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+            z-index: 50;
+        }
+
+        .fab:hover {
+            box-shadow: var(--md-sys-elevation-4);
+        }
+
+        .fab:active {
+            box-shadow: var(--md-sys-elevation-3);
+        }
+
+        /* Material 3 Chips */
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 1rem;
+            background: var(--md-sys-color-surface-container-low);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--md-sys-shape-corner-small);
+            font-size: 0.875rem;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+        }
+
+        .chip-filled {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            border-color: transparent;
+        }
+
+        /* Rating */
+        .rating {
+            display: flex;
+            gap: 0.25rem;
+            margin: 0.5rem 0;
+        }
+
+        .rating-star {
+            cursor: pointer;
+            color: var(--md-sys-color-outline-variant);
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+            font-size: 1.25rem;
+        }
+
+        .rating-star.filled {
+            color: var(--md-sys-color-primary);
+        }
+
+        .rating-star:hover {
+            color: var(--md-sys-color-primary);
+            transform: scale(1.1);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--md-sys-shape-corner-full);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-planned {
+            background: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
+        }
+
+        .status-in-progress {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        .status-completed {
+            background: #C8E6C9;
+            color: #1B5E20;
+        }
+
+        .status-abandoned {
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container);
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--md-sys-shape-corner-full);
+            background: var(--md-sys-color-surface-container-low);
+            font-size: 1rem;
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--md-sys-color-primary);
+            background: var(--md-sys-color-surface-container-lowest);
+            border-width: 2px;
+            padding: calc(1rem - 1px) calc(1rem - 1px) calc(1rem - 1px) calc(3rem - 1px);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            background: var(--md-sys-color-surface-container-low);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--md-sys-shape-corner-small);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .filter-chip:hover {
+            background: var(--md-sys-color-surface-container);
+        }
+
+        .filter-chip.active {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            border-color: transparent;
+        }
+
+        /* Calendar */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: var(--md-sys-color-surface-container-low);
+            border-radius: var(--md-sys-shape-corner-large);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            padding: 2px;
+        }
+
+        .calendar-header {
+            background: var(--md-sys-color-primary-container);
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        .calendar-day {
+            background: var(--md-sys-color-surface-container-lowest);
+            min-height: 80px;
+            padding: 0.5rem;
+            position: relative;
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+        }
+
+        .calendar-day:hover {
+            background: var(--md-sys-color-surface-container);
+        }
+
+        .calendar-day-number {
+            font-size: 0.875rem;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--md-sys-color-surface-container-low);
+            border-radius: var(--md-sys-shape-corner-large);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--md-sys-elevation-1);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--md-sys-color-primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-top: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.1px;
+        }
+
+        /* Install Button */
+        .install-button {
+            padding: 0.5rem 1rem;
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border: none;
+            border-radius: var(--md-sys-shape-corner-full);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+        }
+
+        .install-button:hover {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        /* Offline Indicator */
+        .offline-indicator {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.75rem 1.5rem;
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container);
+            border-radius: var(--md-sys-shape-corner-full);
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: var(--md-sys-elevation-3);
+            z-index: 200;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--md-sys-color-surface-variant);
+            border-top-color: var(--md-sys-color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 3rem auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            color: var(--md-sys-color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .empty-state-text {
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Snackbar (Toast) */
+        .snackbar {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--md-sys-color-inverse-surface);
+            color: var(--md-sys-color-inverse-on-surface);
+            padding: 0.875rem 1.5rem;
+            border-radius: var(--md-sys-shape-corner-extra-small);
+            z-index: 1000;
+            animation: slideUp var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
+            box-shadow: var(--md-sys-elevation-3);
+            font-size: 0.875rem;
+            min-width: 200px;
+            max-width: 400px;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateX(-50%) translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        /* Hidden */
+        [hidden] {
+            display: none !important;
+        }
+
+        /* Media Icon Badge */
+        .media-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: var(--md-sys-shape-corner-extra-small);
+            font-size: 14px;
+        }
+
+        .media-icon-book {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        .media-icon-video {
+            background: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
+        }
+
+        .media-icon-audio {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        .media-icon-article {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .fab {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .nav-title {
+                font-size: 1.125rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* PWA Standalone */
+        @media all and (display-mode: standalone) {
+            .install-button {
+                display: none;
+            }
+        }
+
+        /* Focus styles */
+        *:focus-visible {
+            outline: 2px solid var(--md-sys-color-primary);
+            outline-offset: 2px;
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.12;
+            transform: translate(-50%, -50%);
+            transition: width var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-standard),
+                        height var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-standard);
+        }
+
+        .ripple:active::after {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="nav-bar">
+            <div class="nav-container">
+                <h1 class="nav-title">
+                    <span class="material-symbols-rounded">auto_stories</span>
+                    Media Diary
+                </h1>
+                <button id="install-btn" class="install-button ripple" hidden>
+                    <span class="material-symbols-rounded">download</span>
+                    Install
+                </button>
+            </div>
+            <ul class="nav-menu">
+                <li><a onclick="navigate('today')" data-route="today" class="active ripple">
+                    <span class="material-symbols-rounded">today</span>
+                    Today
+                </a></li>
+                <li><a onclick="navigate('all')" data-route="all" class="ripple">
+                    <span class="material-symbols-rounded">library_books</span>
+                    All Entries
+                </a></li>
+                <li><a onclick="navigate('calendar')" data-route="calendar" class="ripple">
+                    <span class="material-symbols-rounded">calendar_month</span>
+                    Calendar
+                </a></li>
+                <li><a onclick="navigate('stats')" data-route="stats" class="ripple">
+                    <span class="material-symbols-rounded">insights</span>
+                    Stats
+                </a></li>
+                <li><a onclick="navigate('settings')" data-route="settings" class="ripple">
+                    <span class="material-symbols-rounded">settings</span>
+                    Settings
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <!-- Dynamic content loads here -->
+        </main>
+
+        <!-- Add Entry FAB -->
+        <button id="add-fab" class="fab ripple" onclick="navigate('add')">
+            <span class="material-symbols-rounded">add</span>
+        </button>
+
+        <!-- Offline indicator -->
+        <div id="offline-indicator" class="offline-indicator" hidden>
+            <span class="material-symbols-rounded">wifi_off</span>
+            You're offline
+        </div>
+    </div>
+
+    <script>
+        // IndexedDB Database Manager
+        class MediaDiaryDB {
+            constructor() {
+                this.dbName = 'MediaDiaryDB';
+                this.version = 1;
+                this.db = null;
+            }
+
+            async init() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, this.version);
+
+                    request.onerror = () => reject(request.error);
+                    request.onsuccess = () => {
+                        this.db = request.result;
+                        resolve(this.db);
+                    };
+
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+
+                        if (!db.objectStoreNames.contains('entries')) {
+                            const entriesStore = db.createObjectStore('entries', {
+                                keyPath: 'id',
+                                autoIncrement: true
+                            });
+                            entriesStore.createIndex('date', 'date', { unique: false });
+                            entriesStore.createIndex('mediaType', 'mediaType', { unique: false });
+                            entriesStore.createIndex('status', 'status', { unique: false });
+                            entriesStore.createIndex('rating', 'rating', { unique: false });
+                            entriesStore.createIndex('createdAt', 'createdAt', { unique: false });
+                        }
+
+                        if (!db.objectStoreNames.contains('settings')) {
+                            db.createObjectStore('settings', { keyPath: 'key' });
+                        }
+                    };
+                });
+            }
+
+            async addEntry(entry) {
+                const transaction = this.db.transaction(['entries'], 'readwrite');
+                const store = transaction.objectStore('entries');
+                
+                entry.createdAt = new Date().toISOString();
+                entry.updatedAt = entry.createdAt;
+                
+                return new Promise((resolve, reject) => {
+                    const request = store.add(entry);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async updateEntry(id, updates) {
+                const transaction = this.db.transaction(['entries'], 'readwrite');
+                const store = transaction.objectStore('entries');
+                
+                const entry = await this.getEntry(id);
+                if (!entry) throw new Error('Entry not found');
+                
+                const updatedEntry = {
+                    ...entry,
+                    ...updates,
+                    updatedAt: new Date().toISOString()
+                };
+                
+                return new Promise((resolve, reject) => {
+                    const request = store.put(updatedEntry);
+                    request.onsuccess = () => resolve(updatedEntry);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async deleteEntry(id) {
+                const transaction = this.db.transaction(['entries'], 'readwrite');
+                const store = transaction.objectStore('entries');
+                
+                return new Promise((resolve, reject) => {
+                    const request = store.delete(id);
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async getEntry(id) {
+                const transaction = this.db.transaction(['entries'], 'readonly');
+                const store = transaction.objectStore('entries');
+                
+                return new Promise((resolve, reject) => {
+                    const request = store.get(id);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async getAllEntries(filters = {}) {
+                const transaction = this.db.transaction(['entries'], 'readonly');
+                const store = transaction.objectStore('entries');
+                
+                let entries = [];
+                
+                return new Promise((resolve, reject) => {
+                    const request = store.openCursor();
+                    
+                    request.onsuccess = (event) => {
+                        const cursor = event.target.result;
+                        if (cursor) {
+                            const entry = cursor.value;
+                            let include = true;
+                            
+                            if (filters.mediaType && entry.mediaType !== filters.mediaType) {
+                                include = false;
+                            }
+                            
+                            if (filters.dateFrom && new Date(entry.date) < new Date(filters.dateFrom)) {
+                                include = false;
+                            }
+                            
+                            if (filters.dateTo && new Date(entry.date) > new Date(filters.dateTo)) {
+                                include = false;
+                            }
+                            
+                            if (filters.search) {
+                                const searchLower = filters.search.toLowerCase();
+                                const searchableText = `${entry.title} ${entry.creator} ${entry.notes || ''}`.toLowerCase();
+                                if (!searchableText.includes(searchLower)) {
+                                    include = false;
+                                }
+                            }
+                            
+                            if (include) {
+                                entries.push(entry);
+                            }
+                            
+                            cursor.continue();
+                        } else {
+                            entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+                            resolve(entries);
+                        }
+                    };
+                    
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async getTodayEntries() {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                
+                return this.getAllEntries({
+                    dateFrom: today.toISOString(),
+                    dateTo: tomorrow.toISOString()
+                });
+            }
+
+            async getSetting(key) {
+                const transaction = this.db.transaction(['settings'], 'readonly');
+                const store = transaction.objectStore('settings');
+                
+                return new Promise((resolve, reject) => {
+                    const request = store.get(key);
+                    request.onsuccess = () => resolve(request.result?.value);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async setSetting(key, value) {
+                const transaction = this.db.transaction(['settings'], 'readwrite');
+                const store = transaction.objectStore('settings');
+                
+                return new Promise((resolve, reject) => {
+                    const request = store.put({ key, value });
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async getStats() {
+                const entries = await this.getAllEntries();
+                
+                const stats = {
+                    total: entries.length,
+                    byType: {},
+                    byStatus: {},
+                    avgRating: 0,
+                    totalDuration: 0,
+                    totalPages: 0
+                };
+                
+                let ratingSum = 0;
+                let ratingCount = 0;
+                
+                entries.forEach(entry => {
+                    stats.byType[entry.mediaType] = (stats.byType[entry.mediaType] || 0) + 1;
+                    stats.byStatus[entry.status] = (stats.byStatus[entry.status] || 0) + 1;
+                    
+                    if (entry.rating) {
+                        ratingSum += entry.rating;
+                        ratingCount++;
+                    }
+                    
+                    if (entry.duration) {
+                        stats.totalDuration += entry.duration;
+                    }
+                    if (entry.pages) {
+                        stats.totalPages += entry.pages;
+                    }
+                });
+                
+                stats.avgRating = ratingCount > 0 ? (ratingSum / ratingCount).toFixed(1) : 0;
+                
+                return stats;
+            }
+
+            async exportData(format = 'json') {
+                const entries = await this.getAllEntries();
+                
+                if (format === 'json') {
+                    return JSON.stringify({
+                        version: this.version,
+                        exportDate: new Date().toISOString(),
+                        entries
+                    }, null, 2);
+                } else if (format === 'csv') {
+                    const headers = ['Title', 'Creator', 'Type', 'Date', 'Status', 'Rating', 'Duration/Pages', 'Tags', 'Notes'];
+                    const rows = entries.map(entry => [
+                        entry.title,
+                        entry.creator,
+                        entry.mediaType,
+                        entry.date,
+                        entry.status,
+                        entry.rating || '',
+                        entry.duration || entry.pages || '',
+                        (entry.tags || []).join(';'),
+                        entry.notes || ''
+                    ]);
+                    
+                    return [
+                        headers.join(','),
+                        ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+                    ].join('\n');
+                }
+            }
+
+            async importData(data, format = 'json') {
+                if (format === 'json') {
+                    const parsed = JSON.parse(data);
+                    
+                    if (parsed.entries) {
+                        for (const entry of parsed.entries) {
+                            delete entry.id;
+                            await this.addEntry(entry);
+                        }
+                    }
+                    
+                    return { entriesImported: parsed.entries?.length || 0 };
+                }
+            }
+        }
+
+        // Global variables
+        let db = null;
+        let currentRoute = 'today';
+        let currentEditId = null;
+        let deferredPrompt = null;
+
+        // Initialize app
+        async function init() {
+            db = new MediaDiaryDB();
+            await db.init();
+            
+            // Register service worker
+            if ('serviceWorker' in navigator) {
+                registerServiceWorker();
+            }
+            
+            // Setup install prompt
+            setupInstallPrompt();
+            
+            // Setup offline indicator
+            setupOfflineIndicator();
+            
+            // Load initial page
+            navigate('today');
+        }
+
+        // Service Worker
+        function registerServiceWorker() {
+            const sw = `
+                const CACHE_NAME = 'media-diary-v1';
+                const urlsToCache = ['/'];
+                
+                self.addEventListener('install', event => {
+                    event.waitUntil(
+                        caches.open(CACHE_NAME)
+                            .then(cache => cache.addAll(urlsToCache))
+                    );
+                });
+                
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        caches.match(event.request)
+                            .then(response => response || fetch(event.request))
+                    );
+                });
+            `;
+            
+            const blob = new Blob([sw], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            
+            navigator.serviceWorker.register(swUrl).then(registration => {
+                console.log('ServiceWorker registered');
+            }).catch(error => {
+                console.log('ServiceWorker registration failed:', error);
+            });
+        }
+
+        // Navigation
+        function navigate(route, params = {}) {
+            currentRoute = route;
+            
+            // Update nav menu
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.route === route) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load page content
+            const mainContent = document.getElementById('main-content');
+            mainContent.innerHTML = '<div class="spinner"></div>';
+            
+            setTimeout(async () => {
+                try {
+                    let content = '';
+                    
+                    switch (route) {
+                        case 'today':
+                            content = await renderTodayPage();
+                            break;
+                        case 'all':
+                            content = await renderAllEntriesPage();
+                            break;
+                        case 'calendar':
+                            content = await renderCalendarPage();
+                            break;
+                        case 'stats':
+                            content = await renderStatsPage();
+                            break;
+                        case 'add':
+                            content = await renderEditPage(false);
+                            break;
+                        case 'edit':
+                            content = await renderEditPage(true, params.id);
+                            break;
+                        case 'detail':
+                            content = await renderDetailPage(params.id);
+                            break;
+                        case 'settings':
+                            content = await renderSettingsPage();
+                            break;
+                    }
+                    
+                    mainContent.innerHTML = content;
+                } catch (error) {
+                    console.error('Navigation error:', error);
+                    mainContent.innerHTML = `
+                        <div class="empty-state">
+                            <span class="material-symbols-rounded empty-state-icon">error</span>
+                            <h2 class="empty-state-title">Error loading page</h2>
+                            <p class="empty-state-text">${error.message}</p>
+                        </div>
+                    `;
+                }
+            }, 100);
+        }
+
+        // Page Renderers
+        async function renderTodayPage() {
+            const entries = await db.getTodayEntries();
+            
+            if (entries.length === 0) {
+                return `
+                    <div class="empty-state">
+                        <span class="material-symbols-rounded empty-state-icon">event_available</span>
+                        <h2 class="empty-state-title">No entries today</h2>
+                        <p class="empty-state-text">Start tracking your media consumption</p>
+                        <button class="btn btn-filled ripple" onclick="navigate('add')">
+                            <span class="material-symbols-rounded">add</span>
+                            Add First Entry
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return `
+                <h2>Today's Media</h2>
+                <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 1.5rem;">
+                    ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                </p>
+                <div class="entries-list">
+                    ${entries.map(entry => renderEntryCard(entry)).join('')}
+                </div>
+            `;
+        }
+
+        async function renderAllEntriesPage() {
+            const entries = await db.getAllEntries();
+            
+            return `
+                <h2>All Entries</h2>
+                
+                <div class="search-container">
+                    <span class="material-symbols-rounded search-icon">search</span>
+                    <input type="search" class="search-input" placeholder="Search entries..." 
+                           onkeyup="searchEntries(this.value)">
+                </div>
+                
+                <div class="filter-bar">
+                    <button class="filter-chip active" onclick="filterByType('all', this)">All</button>
+                    <button class="filter-chip" onclick="filterByType('book', this)">Books</button>
+                    <button class="filter-chip" onclick="filterByType('video', this)">Videos</button>
+                    <button class="filter-chip" onclick="filterByType('audio', this)">Audio</button>
+                    <button class="filter-chip" onclick="filterByType('article', this)">Articles</button>
+                </div>
+                
+                <div class="entries-list" id="entries-list">
+                    ${entries.map(entry => renderEntryCard(entry)).join('')}
+                </div>
+            `;
+        }
+
+        async function renderCalendarPage() {
+            const entries = await db.getAllEntries();
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                              'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            return `
+                <h2>Calendar</h2>
+                <p style="text-align: center; margin-bottom: 1.5rem; font-size: 1.125rem; color: var(--md-sys-color-primary);">
+                    ${monthNames[month]} ${year}
+                </p>
+                
+                <div class="calendar-grid">
+                    ${renderCalendarGrid(year, month, entries)}
+                </div>
+                
+                <button class="btn btn-filled ripple" onclick="exportICS()">
+                    <span class="material-symbols-rounded">calendar_add_on</span>
+                    Export to Calendar (ICS)
+                </button>
+            `;
+        }
+
+        function renderCalendarGrid(year, month, entries) {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+            
+            const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            let html = weekdays.map(day => `<div class="calendar-header">${day}</div>`).join('');
+            
+            // Empty cells before first day
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                html += '<div class="calendar-day empty"></div>';
+            }
+            
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEntries = entries.filter(e => e.date && e.date.startsWith(dateStr));
+                
+                html += `
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">${day}</div>
+                        ${dayEntries.length > 0 ? `
+                            <div style="display: flex; gap: 2px; margin-top: 4px;">
+                                ${dayEntries.slice(0, 3).map(e => `
+                                    <div style="width: 4px; height: 4px; border-radius: 50%; background: var(--md-sys-color-primary);"></div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            return html;
+        }
+
+        async function renderStatsPage() {
+            const stats = await db.getStats();
+            
+            return `
+                <h2>Statistics</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" style="font-size: 48px; color: var(--md-sys-color-primary);">library_books</span>
+                        <div class="stat-value">${stats.total}</div>
+                        <div class="stat-label">Total Entries</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" style="font-size: 48px; color: var(--md-sys-color-primary);">star</span>
+                        <div class="stat-value">${stats.avgRating}</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" style="font-size: 48px; color: var(--md-sys-color-primary);">schedule</span>
+                        <div class="stat-value">${stats.totalDuration}</div>
+                        <div class="stat-label">Total Minutes</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" style="font-size: 48px; color: var(--md-sys-color-primary);">menu_book</span>
+                        <div class="stat-value">${stats.totalPages}</div>
+                        <div class="stat-label">Total Pages</div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <h3>By Media Type</h3>
+                    ${Object.entries(stats.byType).map(([type, count]) => `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+                            <span style="display: flex; align-items: center; gap: 0.5rem;">
+                                ${getMediaIcon(type)}
+                                <strong>${type}</strong>
+                            </span>
+                            <span class="chip chip-filled">${count}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="card" style="margin-top: 1rem;">
+                    <h3>By Status</h3>
+                    ${Object.entries(stats.byStatus).map(([status, count]) => `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+                            <span class="status-badge status-${status}">${status}</span>
+                            <strong>${count}</strong>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        async function renderDetailPage(id) {
+            const entry = await db.getEntry(parseInt(id));
+            
+            if (!entry) {
+                return `
+                    <div class="empty-state">
+                        <span class="material-symbols-rounded empty-state-icon">search_off</span>
+                        <h2 class="empty-state-title">Entry not found</h2>
+                        <button class="btn btn-filled ripple" onclick="navigate('all')">
+                            <span class="material-symbols-rounded">arrow_back</span>
+                            Back to Entries
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="btn btn-text ripple" onclick="navigate('all')">
+                        <span class="material-symbols-rounded">arrow_back</span>
+                        Back
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <h2>${entry.title}</h2>
+                    <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 1rem;">by ${entry.creator}</p>
+                    
+                    <div style="display: flex; gap: 0.5rem; margin: 1.5rem 0;">
+                        <span class="status-badge status-${entry.status}">${entry.status}</span>
+                        ${getMediaIcon(entry.mediaType)}
+                    </div>
+                    
+                    ${entry.rating ? `<div class="rating">${renderRating(entry.rating)}</div>` : ''}
+                    
+                    <div style="margin: 1.5rem 0; color: var(--md-sys-color-on-surface-variant);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <span class="material-symbols-rounded">calendar_today</span>
+                            ${new Date(entry.date).toLocaleDateString()}
+                        </div>
+                        ${entry.duration ? `
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span class="material-symbols-rounded">schedule</span>
+                                ${entry.duration} minutes
+                            </div>
+                        ` : ''}
+                        ${entry.pages ? `
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span class="material-symbols-rounded">menu_book</span>
+                                ${entry.pages} pages
+                            </div>
+                        ` : ''}
+                        ${entry.sourceUrl ? `
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span class="material-symbols-rounded">link</span>
+                                <a href="${entry.sourceUrl}" target="_blank" style="color: var(--md-sys-color-primary);">
+                                    ${new URL(entry.sourceUrl).hostname}
+                                </a>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${entry.tags && entry.tags.length > 0 ? `
+                        <div style="margin: 1rem 0;">
+                            ${entry.tags.map(tag => `<span class="chip">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    ${entry.notes ? `
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--md-sys-color-outline-variant);">
+                            <h3>Notes</h3>
+                            <p style="color: var(--md-sys-color-on-surface-variant); line-height: 1.6;">${entry.notes}</p>
+                        </div>
+                    ` : ''}
+                    
+                    <div style="margin-top: 2rem; display: flex; gap: 0.5rem;">
+                        <button class="btn btn-filled ripple" onclick="navigate('edit', {id: ${entry.id}})">
+                            <span class="material-symbols-rounded">edit</span>
+                            Edit
+                        </button>
+                        <button class="btn btn-danger ripple" onclick="deleteEntry(${entry.id})">
+                            <span class="material-symbols-rounded">delete</span>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function renderEditPage(isEdit, id) {
+            let entry = {};
+            
+            if (isEdit) {
+                currentEditId = parseInt(id);
+                entry = await db.getEntry(currentEditId);
+                if (!entry) {
+                    return `
+                        <div class="empty-state">
+                            <span class="material-symbols-rounded empty-state-icon">search_off</span>
+                            <h2 class="empty-state-title">Entry not found</h2>
+                            <button class="btn btn-filled ripple" onclick="navigate('all')">
+                                <span class="material-symbols-rounded">arrow_back</span>
+                                Back to Entries
+                            </button>
+                        </div>
+                    `;
+                }
+            } else {
+                currentEditId = null;
+            }
+            
+            return `
+                <h2>${isEdit ? 'Edit Entry' : 'Add New Entry'}</h2>
+                
+                <form onsubmit="saveEntry(event)" class="card">
+                    <div class="form-group">
+                        <label class="form-label">Title *</label>
+                        <input type="text" class="form-input" id="title" value="${entry.title || ''}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Creator/Author *</label>
+                        <input type="text" class="form-input" id="creator" value="${entry.creator || ''}" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Media Type *</label>
+                            <select class="form-select" id="mediaType" onchange="updateDurationLabel()" required>
+                                <option value="">Select...</option>
+                                <option value="book" ${entry.mediaType === 'book' ? 'selected' : ''}>📚 Book</option>
+                                <option value="video" ${entry.mediaType === 'video' ? 'selected' : ''}>🎬 Video</option>
+                                <option value="audio" ${entry.mediaType === 'audio' ? 'selected' : ''}>🎧 Audio/Podcast</option>
+                                <option value="article" ${entry.mediaType === 'article' ? 'selected' : ''}>📄 Article</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Date *</label>
+                            <input type="date" class="form-input" id="date" value="${entry.date || new Date().toISOString().split('T')[0]}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="status">
+                                <option value="planned" ${entry.status === 'planned' ? 'selected' : ''}>Planned</option>
+                                <option value="in-progress" ${entry.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                                <option value="completed" ${entry.status === 'completed' ? 'selected' : ''}>Completed</option>
+                                <option value="abandoned" ${entry.status === 'abandoned' ? 'selected' : ''}>Abandoned</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" id="durationLabel">Duration (minutes)</label>
+                            <input type="number" class="form-input" id="duration" value="${entry.duration || entry.pages || ''}" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Rating</label>
+                        <div class="rating">
+                            ${[1,2,3,4,5].map(i => `
+                                <span class="material-symbols-rounded rating-star ${entry.rating >= i ? 'filled' : ''}" 
+                                      onclick="setRating(${i})" id="star-${i}">star</span>
+                            `).join('')}
+                        </div>
+                        <input type="hidden" id="rating" value="${entry.rating || ''}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Source URL</label>
+                        <input type="url" class="form-input" id="sourceUrl" value="${entry.sourceUrl || ''}" placeholder="https://...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tags (comma-separated)</label>
+                        <input type="text" class="form-input" id="tags" value="${entry.tags ? entry.tags.join(', ') : ''}" placeholder="fiction, sci-fi, favorite">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-textarea" id="notes">${entry.notes || ''}</textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button type="submit" class="btn btn-filled ripple">
+                            <span class="material-symbols-rounded">${isEdit ? 'save' : 'add'}</span>
+                            ${isEdit ? 'Update' : 'Add'} Entry
+                        </button>
+                        <button type="button" class="btn btn-outlined ripple" onclick="navigate('all')">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            `;
+        }
+
+        async function renderSettingsPage() {
+            return `
+                <h2>Settings</h2>
+                
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>
+                        <span class="material-symbols-rounded" style="vertical-align: middle;">download</span>
+                        Export Data
+                    </h3>
+                    <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 1rem;">
+                        Download your media diary data for backup or transfer
+                    </p>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-tonal ripple" onclick="exportData('json')">
+                            <span class="material-symbols-rounded">code</span>
+                            Export as JSON
+                        </button>
+                        <button class="btn btn-tonal ripple" onclick="exportData('csv')">
+                            <span class="material-symbols-rounded">table_chart</span>
+                            Export as CSV
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>
+                        <span class="material-symbols-rounded" style="vertical-align: middle;">upload</span>
+                        Import Data
+                    </h3>
+                    <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 1rem;">
+                        Import previously exported data
+                    </p>
+                    <input type="file" id="importFile" accept=".json,.csv" onchange="importData(this.files[0])" 
+                           style="display: block; margin-top: 0.5rem;">
+                </div>
+                
+                <div class="card">
+                    <h3>
+                        <span class="material-symbols-rounded" style="vertical-align: middle;">info</span>
+                        About
+                    </h3>
+                    <p><strong>Media Diary</strong> v1.0.0</p>
+                    <p style="color: var(--md-sys-color-on-surface-variant); margin-top: 0.5rem;">
+                        A local-first PWA for tracking your media consumption. All data is stored locally on your device using IndexedDB.
+                    </p>
+                    <p style="color: var(--md-sys-color-on-surface-variant); margin-top: 0.5rem;">
+                        Built with Material Design 3 principles for a beautiful, consistent experience.
+                    </p>
+                </div>
+            `;
+        }
+
+        // Helper Functions
+        function renderEntryCard(entry) {
+            return `
+                <div class="card" onclick="navigate('detail', {id: ${entry.id}})">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">
+                                ${getMediaIcon(entry.mediaType)}
+                                ${entry.title}
+                            </h3>
+                            <p style="color: var(--md-sys-color-on-surface-variant);">${entry.creator}</p>
+                        </div>
+                        <span class="status-badge status-${entry.status}">${entry.status}</span>
+                    </div>
+                    
+                    <div class="card-meta">
+                        <span style="display: flex; align-items: center; gap: 0.25rem;">
+                            <span class="material-symbols-rounded" style="font-size: 16px;">calendar_today</span>
+                            ${new Date(entry.date).toLocaleDateString()}
+                        </span>
+                        ${entry.duration ? `
+                            <span style="display: flex; align-items: center; gap: 0.25rem;">
+                                <span class="material-symbols-rounded" style="font-size: 16px;">schedule</span>
+                                ${entry.duration} min
+                            </span>
+                        ` : ''}
+                        ${entry.pages ? `
+                            <span style="display: flex; align-items: center; gap: 0.25rem;">
+                                <span class="material-symbols-rounded" style="font-size: 16px;">menu_book</span>
+                                ${entry.pages} pages
+                            </span>
+                        ` : ''}
+                    </div>
+                    
+                    ${entry.rating ? `<div class="rating">${renderRating(entry.rating)}</div>` : ''}
+                    
+                    ${entry.tags && entry.tags.length > 0 ? `
+                        <div>
+                            ${entry.tags.map(tag => `<span class="chip">${tag}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderRating(rating) {
+            return Array(5).fill(0).map((_, i) => 
+                `<span class="material-symbols-rounded rating-star ${i < rating ? 'filled' : ''}">star</span>`
+            ).join('');
+        }
+
+        function getMediaIcon(type) {
+            const icons = {
+                book: '<span class="media-icon media-icon-book">📚</span>',
+                video: '<span class="media-icon media-icon-video">🎬</span>',
+                audio: '<span class="media-icon media-icon-audio">🎧</span>',
+                article: '<span class="media-icon media-icon-article">📄</span>'
+            };
+            return icons[type] || '<span class="media-icon">📝</span>';
+        }
+
+        function setRating(rating) {
+            document.getElementById('rating').value = rating;
+            for (let i = 1; i <= 5; i++) {
+                const star = document.getElementById(`star-${i}`);
+                if (star) {
+                    star.classList.toggle('filled', i <= rating);
+                }
+            }
+        }
+
+        function updateDurationLabel() {
+            const mediaType = document.getElementById('mediaType').value;
+            const label = document.getElementById('durationLabel');
+            if (label) {
+                label.textContent = mediaType === 'book' ? 'Pages' : 'Duration (minutes)';
+            }
+        }
+
+        async function saveEntry(event) {
+            event.preventDefault();
+            
+            const entry = {
+                title: document.getElementById('title').value,
+                creator: document.getElementById('creator').value,
+                mediaType: document.getElementById('mediaType').value,
+                date: document.getElementById('date').value,
+                status: document.getElementById('status').value,
+                rating: document.getElementById('rating').value ? parseInt(document.getElementById('rating').value) : null,
+                sourceUrl: document.getElementById('sourceUrl').value,
+                notes: document.getElementById('notes').value,
+                tags: document.getElementById('tags').value ? 
+                    document.getElementById('tags').value.split(',').map(t => t.trim()).filter(Boolean) : []
+            };
+            
+            const durationValue = document.getElementById('duration').value;
+            if (durationValue) {
+                if (entry.mediaType === 'book') {
+                    entry.pages = parseInt(durationValue);
+                } else {
+                    entry.duration = parseInt(durationValue);
+                }
+            }
+            
+            try {
+                if (currentEditId) {
+                    await db.updateEntry(currentEditId, entry);
+                    showSnackbar('Entry updated successfully');
+                } else {
+                    await db.addEntry(entry);
+                    showSnackbar('Entry added successfully');
+                }
+                navigate('all');
+            } catch (error) {
+                showSnackbar('Error saving entry: ' + error.message);
+            }
+        }
+
+        async function deleteEntry(id) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                try {
+                    await db.deleteEntry(id);
+                    showSnackbar('Entry deleted');
+                    navigate('all');
+                } catch (error) {
+                    showSnackbar('Error deleting entry');
+                }
+            }
+        }
+
+        async function searchEntries(searchTerm) {
+            const entries = await db.getAllEntries({ search: searchTerm });
+            const entriesList = document.getElementById('entries-list');
+            if (entriesList) {
+                entriesList.innerHTML = entries.map(entry => renderEntryCard(entry)).join('');
+            }
+        }
+
+        async function filterByType(type, button) {
+            // Update active state
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            button.classList.add('active');
+            
+            // Filter entries
+            const entries = type === 'all' ? 
+                await db.getAllEntries() : 
+                await db.getAllEntries({ mediaType: type });
+            
+            const entriesList = document.getElementById('entries-list');
+            if (entriesList) {
+                entriesList.innerHTML = entries.map(entry => renderEntryCard(entry)).join('');
+            }
+        }
+
+        async function exportData(format) {
+            try {
+                const data = await db.exportData(format);
+                const blob = new Blob([data], { 
+                    type: format === 'json' ? 'application/json' : 'text/csv' 
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `media-diary-${new Date().toISOString().split('T')[0]}.${format}`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showSnackbar('Data exported successfully');
+            } catch (error) {
+                showSnackbar('Export failed');
+            }
+        }
+
+        async function importData(file) {
+            if (!file) return;
+            
+            try {
+                const text = await file.text();
+                const format = file.name.endsWith('.csv') ? 'csv' : 'json';
+                const result = await db.importData(text, format);
+                showSnackbar(`Imported ${result.entriesImported} entries`);
+                navigate('all');
+            } catch (error) {
+                showSnackbar('Import failed');
+            }
+        }
+
+        async function exportICS() {
+            const entries = await db.getAllEntries({ status: 'planned' });
+            
+            let icsContent = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//Media Diary//EN',
+                'CALSCALE:GREGORIAN'
+            ];
+
+            entries.forEach(entry => {
+                const date = new Date(entry.date);
+                const dateStr = date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+                
+                icsContent.push(
+                    'BEGIN:VEVENT',
+                    `UID:${entry.id}@mediadiary`,
+                    `DTSTAMP:${dateStr}`,
+                    `DTSTART:${dateStr}`,
+                    `SUMMARY:${entry.title}`,
+                    `DESCRIPTION:${entry.notes || ''}`,
+                    'END:VEVENT'
+                );
+            });
+
+            icsContent.push('END:VCALENDAR');
+            
+            const blob = new Blob([icsContent.join('\r\n')], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `media-diary-${new Date().toISOString().split('T')[0]}.ics`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showSnackbar('Calendar exported');
+        }
+
+        function showSnackbar(message) {
+            const snackbar = document.createElement('div');
+            snackbar.className = 'snackbar';
+            snackbar.textContent = message;
+            document.body.appendChild(snackbar);
+            
+            setTimeout(() => {
+                snackbar.remove();
+            }, 3000);
+        }
+
+        function setupInstallPrompt() {
+            const installBtn = document.getElementById('install-btn');
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                if (installBtn) {
+                    installBtn.hidden = false;
+                }
+            });
+
+            if (installBtn) {
+                installBtn.addEventListener('click', async () => {
+                    if (!deferredPrompt) return;
+                    
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    if (outcome === 'accepted') {
+                        showSnackbar('App installed successfully!');
+                    }
+                    
+                    deferredPrompt = null;
+                    installBtn.hidden = true;
+                });
+            }
+        }
+
+        function setupOfflineIndicator() {
+            const indicator = document.getElementById('offline-indicator');
+            
+            const updateStatus = () => {
+                if (indicator) {
+                    indicator.hidden = navigator.onLine;
+                }
+            };
+
+            window.addEventListener('online', updateStatus);
+            window.addEventListener('offline', updateStatus);
+            
+            updateStatus();
+        }
+
+        // Initialize app when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>

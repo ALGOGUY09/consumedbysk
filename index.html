@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    
     <style>
         :root {
             /* Apple-inspired Design System */
@@ -701,6 +706,96 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--text-tertiary);
         }
+        
+        /* Sync Button */
+        .sync-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .sync-btn:hover {
+            background: var(--surface-elevated);
+            color: var(--apple-blue);
+            border-color: var(--apple-blue);
+        }
+        
+        .sync-btn.syncing {
+            animation: rotate 1s linear infinite;
+        }
+        
+        .sync-btn.synced {
+            color: var(--apple-green);
+            border-color: var(--apple-green);
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Admin Badge */
+        .admin-badge {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, var(--apple-orange), var(--apple-red));
+            color: white;
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 150;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+        
+        .admin-badge.show {
+            display: block;
+        }
+        
+        /* Sync Status */
+        .sync-status {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            z-index: 150;
+            box-shadow: var(--shadow-lg);
+            display: none;
+        }
+        
+        .sync-status.show {
+            display: block;
+            animation: slideInRight 0.3s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -712,6 +807,9 @@
                 Media Tracker
             </div>
             <div class="header-controls">
+                <button class="sync-btn" id="syncBtn" onclick="showSyncMenu()" title="Cloud Sync">
+                    <span class="material-symbols-rounded">cloud_sync</span>
+                </button>
                 <div class="date-dropdown">
                     <div class="date-select" onclick="toggleDateMenu()">
                         <span class="material-symbols-rounded">calendar_today</span>
@@ -800,6 +898,117 @@
                 </form>
             </div>
         </div>
+        
+        <!-- Sync Menu -->
+        <div class="form-overlay" id="syncOverlay" onclick="hideSyncMenu(event)">
+            <div class="form-modal" onclick="event.stopPropagation()" style="max-width: 420px;">
+                <h2 class="form-title">☁️ Cloud Sync</h2>
+                
+                <div id="syncMenuContent">
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Sync your media entries across all your devices.</p>
+                        
+                        <div style="background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span class="material-symbols-rounded" style="color: var(--apple-blue);">info</span>
+                                <span style="font-weight: 600;">Sync Status</span>
+                            </div>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary);" id="syncStatusText">Not synced</p>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="syncNow()" id="syncNowBtn" style="width: 100%; margin-bottom: 0.75rem;">
+                            <span class="material-symbols-rounded" style="font-size: 18px;">cloud_upload</span>
+                            Sync Now
+                        </button>
+                        
+                        <button class="btn btn-secondary" onclick="showAdminLogin()" style="width: 100%;">
+                            <span class="material-symbols-rounded" style="font-size: 18px;">admin_panel_settings</span>
+                            Admin Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admin Login Modal -->
+        <div class="form-overlay" id="adminOverlay" onclick="hideAdminLogin(event)">
+            <div class="form-modal" onclick="event.stopPropagation()" style="max-width: 380px;">
+                <h2 class="form-title">🔐 Admin Access</h2>
+                
+                <form onsubmit="adminLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Admin Password</label>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="Enter admin password" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="hideAdminLogin()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Admin Panel Modal -->
+        <div class="form-overlay" id="adminPanelOverlay" onclick="hideAdminPanel(event)">
+            <div class="form-modal" onclick="event.stopPropagation()" style="max-width: 520px;">
+                <h2 class="form-title">⚙️ Admin Panel</h2>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="background: linear-gradient(135deg, var(--apple-orange), var(--apple-red)); color: white; padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <span class="material-symbols-rounded">admin_panel_settings</span>
+                            <span style="font-weight: 600;">Admin Mode Active</span>
+                        </div>
+                        <p style="font-size: 0.875rem; opacity: 0.9;">You have full access to sync and data management.</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem;">Cloud Sync Settings</h3>
+                        
+                        <div style="background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 500;">Auto Sync</span>
+                                <label style="display: flex; align-items: center; cursor: pointer;">
+                                    <input type="checkbox" id="autoSyncToggle" onchange="toggleAutoSync()" style="margin-right: 0.5rem;">
+                                    <span id="autoSyncStatus">Disabled</span>
+                                </label>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary);">Automatically sync changes to cloud</p>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="forceSync()" style="width: 100%; margin-bottom: 0.5rem;">
+                            <span class="material-symbols-rounded" style="font-size: 18px;">sync</span>
+                            Force Full Sync
+                        </button>
+                        
+                        <button class="btn btn-secondary" onclick="downloadBackup()" style="width: 100%; margin-bottom: 0.5rem;">
+                            <span class="material-symbols-rounded" style="font-size: 18px;">download</span>
+                            Download Backup
+                        </button>
+                        
+                        <button class="btn btn-secondary" onclick="clearCloudData()" style="width: 100%; background: var(--apple-red); color: white; border-color: var(--apple-red);">
+                            <span class="material-symbols-rounded" style="font-size: 18px;">delete_forever</span>
+                            Clear Cloud Data
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="adminLogout()">Logout</button>
+                    <button type="button" class="btn btn-primary" onclick="hideAdminPanel()">Close</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admin Badge -->
+        <div class="admin-badge" id="adminBadge">
+            <span class="material-symbols-rounded" style="font-size: 14px; margin-right: 0.25rem;">shield</span>
+            ADMIN
+        </div>
+        
+        <!-- Sync Status Toast -->
+        <div class="sync-status" id="syncStatus"></div>
     </div>
 
     <script>
@@ -1297,6 +1506,305 @@
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
+
+        // ============================================
+        // CLOUD SYNC FUNCTIONALITY
+        // ============================================
+        
+        // Firebase configuration (using a demo project - replace with your own)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDemoKeyForMediaTracker123456789",
+            authDomain: "media-tracker-demo.firebaseapp.com",
+            projectId: "media-tracker-demo",
+            storageBucket: "media-tracker-demo.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:demo123"
+        };
+        
+        let firebaseApp = null;
+        let firestore = null;
+        let isAdmin = false;
+        let autoSync = false;
+        const ADMIN_PASSWORD = 'play123'; // Admin password
+        
+        // Initialize Firebase
+        function initFirebase() {
+            try {
+                if (!firebaseApp && typeof firebase !== 'undefined') {
+                    firebaseApp = firebase.initializeApp(firebaseConfig);
+                    firestore = firebase.firestore();
+                    console.log('Firebase initialized');
+                }
+            } catch (error) {
+                console.log('Firebase initialization skipped:', error.message);
+            }
+        }
+        
+        // Show sync menu
+        function showSyncMenu() {
+            document.getElementById('syncOverlay').classList.add('show');
+            updateSyncStatus();
+        }
+        
+        function hideSyncMenu(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('syncOverlay').classList.remove('show');
+            }
+        }
+        
+        // Show admin login
+        function showAdminLogin() {
+            document.getElementById('syncOverlay').classList.remove('show');
+            document.getElementById('adminOverlay').classList.add('show');
+            document.getElementById('adminPassword').value = '';
+        }
+        
+        function hideAdminLogin(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('adminOverlay').classList.remove('show');
+            }
+        }
+        
+        // Admin login
+        function adminLogin(event) {
+            event.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                localStorage.setItem('adminSession', 'true');
+                hideAdminLogin();
+                showAdminPanel();
+                document.getElementById('adminBadge').classList.add('show');
+                showToast('✅ Admin access granted');
+            } else {
+                showToast('❌ Invalid password');
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+        
+        // Show admin panel
+        function showAdminPanel() {
+            document.getElementById('adminPanelOverlay').classList.add('show');
+            document.getElementById('autoSyncToggle').checked = autoSync;
+            document.getElementById('autoSyncStatus').textContent = autoSync ? 'Enabled' : 'Disabled';
+        }
+        
+        function hideAdminPanel(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('adminPanelOverlay').classList.remove('show');
+            }
+        }
+        
+        // Admin logout
+        function adminLogout() {
+            isAdmin = false;
+            autoSync = false;
+            localStorage.removeItem('adminSession');
+            localStorage.removeItem('autoSync');
+            hideAdminPanel();
+            document.getElementById('adminBadge').classList.remove('show');
+            showToast('Admin logged out');
+        }
+        
+        // Toggle auto sync
+        function toggleAutoSync() {
+            autoSync = document.getElementById('autoSyncToggle').checked;
+            localStorage.setItem('autoSync', autoSync.toString());
+            document.getElementById('autoSyncStatus').textContent = autoSync ? 'Enabled' : 'Disabled';
+            showToast(autoSync ? 'Auto sync enabled' : 'Auto sync disabled');
+        }
+        
+        // Sync now
+        async function syncNow() {
+            if (!firestore) {
+                initFirebase();
+                if (!firestore) {
+                    showToast('❌ Cloud sync unavailable');
+                    return;
+                }
+            }
+            
+            const btn = document.getElementById('syncNowBtn');
+            const syncBtn = document.getElementById('syncBtn');
+            btn.disabled = true;
+            btn.textContent = 'Syncing...';
+            syncBtn.classList.add('syncing');
+            
+            try {
+                // Get all local entries
+                const localEntries = await db.getAll();
+                
+                // Upload to Firestore
+                const batch = firestore.batch();
+                localEntries.forEach(entry => {
+                    const docRef = firestore.collection('entries').doc(entry.id.toString());
+                    batch.set(docRef, {
+                        ...entry,
+                        syncedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                });
+                
+                await batch.commit();
+                
+                localStorage.setItem('lastSync', new Date().toISOString());
+                syncBtn.classList.remove('syncing');
+                syncBtn.classList.add('synced');
+                setTimeout(() => syncBtn.classList.remove('synced'), 2000);
+                
+                showToast('✅ Synced successfully');
+                updateSyncStatus();
+            } catch (error) {
+                console.error('Sync error:', error);
+                showToast('❌ Sync failed: ' + error.message);
+                syncBtn.classList.remove('syncing');
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-rounded" style="font-size: 18px;">cloud_upload</span> Sync Now';
+        }
+        
+        // Force full sync (admin only)
+        async function forceSync() {
+            if (!isAdmin) {
+                showToast('❌ Admin access required');
+                return;
+            }
+            
+            if (!firestore) {
+                initFirebase();
+            }
+            
+            try {
+                showToast('🔄 Starting full sync...');
+                
+                // Download from cloud
+                const snapshot = await firestore.collection('entries').get();
+                const cloudEntries = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    cloudEntries.push({ ...data, id: parseInt(doc.id) });
+                });
+                
+                // Clear local database
+                const tx = db.db.transaction(['entries'], 'readwrite');
+                const store = tx.objectStore('entries');
+                await store.clear();
+                
+                // Add cloud entries to local
+                for (const entry of cloudEntries) {
+                    await db.add(entry);
+                }
+                
+                await loadEntries();
+                navigate(currentView);
+                showToast('✅ Full sync complete');
+            } catch (error) {
+                console.error('Force sync error:', error);
+                showToast('❌ Force sync failed');
+            }
+        }
+        
+        // Download backup (admin only)
+        async function downloadBackup() {
+            if (!isAdmin) {
+                showToast('❌ Admin access required');
+                return;
+            }
+            
+            try {
+                const entries = await db.getAll();
+                const backup = {
+                    version: '1.0',
+                    exportDate: new Date().toISOString(),
+                    entries: entries
+                };
+                
+                const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `media-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                showToast('✅ Backup downloaded');
+            } catch (error) {
+                showToast('❌ Backup failed');
+            }
+        }
+        
+        // Clear cloud data (admin only)
+        async function clearCloudData() {
+            if (!isAdmin) {
+                showToast('❌ Admin access required');
+                return;
+            }
+            
+            if (!confirm('⚠️ This will delete ALL cloud data. Are you sure?')) {
+                return;
+            }
+            
+            if (!firestore) {
+                initFirebase();
+            }
+            
+            try {
+                const snapshot = await firestore.collection('entries').get();
+                const batch = firestore.batch();
+                snapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                
+                localStorage.removeItem('lastSync');
+                showToast('✅ Cloud data cleared');
+                updateSyncStatus();
+            } catch (error) {
+                showToast('❌ Failed to clear cloud data');
+            }
+        }
+        
+        // Update sync status display
+        function updateSyncStatus() {
+            const lastSync = localStorage.getItem('lastSync');
+            const statusText = document.getElementById('syncStatusText');
+            
+            if (lastSync) {
+                const date = new Date(lastSync);
+                const now = new Date();
+                const diffMinutes = Math.floor((now - date) / 1000 / 60);
+                
+                let timeAgo = '';
+                if (diffMinutes < 1) timeAgo = 'Just now';
+                else if (diffMinutes < 60) timeAgo = `${diffMinutes} minutes ago`;
+                else if (diffMinutes < 1440) timeAgo = `${Math.floor(diffMinutes / 60)} hours ago`;
+                else timeAgo = `${Math.floor(diffMinutes / 1440)} days ago`;
+                
+                statusText.textContent = `Last synced: ${timeAgo}`;
+            } else {
+                statusText.textContent = 'Never synced';
+            }
+        }
+        
+        // Check for admin session on init
+        function checkAdminSession() {
+            const adminSession = localStorage.getItem('adminSession');
+            const savedAutoSync = localStorage.getItem('autoSync');
+            
+            if (adminSession === 'true') {
+                isAdmin = true;
+                document.getElementById('adminBadge').classList.add('show');
+            }
+            
+            if (savedAutoSync === 'true') {
+                autoSync = true;
+            }
+        }
+        
+        // Initialize sync on app start
+        checkAdminSession();
+        initFirebase();
 
         // Start app
         init();

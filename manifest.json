@@ -1,11 +1,11 @@
 {
   "name": "Media Tracker - Track Movies, TV, Books & More",
   "short_name": "Media Tracker",
-  "description": "Track your movies, TV shows, books, podcasts, games, and music with Material 3 design",
+  "description": "Track your movies, TV shows, books, podcasts, games, and music with beautiful Apple-inspired design",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FAFCFF",
-  "theme_color": "#1E88E5",
+  "background_color": "#F5F5F7",
+  "theme_color": "#000000",
   "orientation": "portrait-primary",
   "scope": "/",
   "icons": [

@@ -177,39 +177,59 @@ The app uses Apple's design language with modern effects:
 - ✅ Opera (v76+) - Full support
 - 📱 All modern mobile browsers - Optimized for touch
 
-## 🛠 Deployment
+## 🚀 Deployment
 
-### Static Hosting
-Deploy to any static hosting service:
+This app is **ready to deploy** to GitHub Pages and Cloudflare Pages with **zero configuration**!
 
-1. **Cloudflare Pages** (recommended):
-   - Connect your Git repo
-   - Build command: (none needed)
-   - Build output directory: `/`
-   - Deploy!
+### Quick Deploy Options
 
-2. **Netlify**:
-   - Drag and drop the entire folder
-   - Or connect Git repo
-   - No build configuration needed
+#### 🐙 **GitHub Pages** (Automatic)
 
-3. **GitHub Pages**:
-   - Push to GitHub
-   - Enable Pages in Settings
-   - Select branch and root directory
+1. Push to `main` branch - **Automatic deployment via GitHub Actions**
+2. Your site will be live at: `https://[username].github.io/[repo-name]/`
 
-4. **Vercel**:
-   - Import project
-   - Zero configuration needed
-   - Deploy!
+#### ☁️ **Cloudflare Pages** (Recommended)
 
-### Files to Deploy
+1. Connect your GitHub repo to Cloudflare Pages
+2. **Build command**: (leave empty)
+3. **Output directory**: `/`
+4. Deploy! Your site: `https://[project-name].pages.dev`
+
+#### 📦 **Other Platforms**
+
+- **Netlify**: Drag and drop or connect Git
+- **Vercel**: Import project, zero config
+- **Surge**: `surge . media-tracker.surge.sh`
+
+### 📋 What's Included
+
+✅ GitHub Actions workflow (`.github/workflows/deploy.yml`)
+✅ Cloudflare Pages configuration (`_headers`, `_redirects`)
+✅ PWA manifest and service worker
+✅ Icons in all required sizes
+✅ `.nojekyll` for GitHub Pages
+✅ Zero build process required
+
+### 📖 Detailed Guide
+
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for complete deployment instructions including:
+- Step-by-step GitHub Pages setup
+- Cloudflare Pages configuration
+- Custom domain setup
+- Firebase configuration
+- Troubleshooting guide
+
+### 🌐 Files Deployed
+
 ```
-index.html          - Main app file (Apple design)
-manifest.json       - PWA manifest
-sw.js              - Service worker
-icon-192.png       - App icon (192x192)
-icon-512.png       - App icon (512x512)
+index.html              - Main app
+manifest.json           - PWA manifest
+sw.js                   - Service worker
+icon-192.png            - App icon (192x192)
+icon-512.png            - App icon (512x512)
+_headers                - Cloudflare headers
+_redirects              - Cloudflare redirects
+.github/workflows/      - GitHub Actions
 ```
 
 ## 🔄 Offline Support

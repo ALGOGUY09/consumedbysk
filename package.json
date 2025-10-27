@@ -1,0 +1,30 @@
+{
+  "name": "media-tracker-pwa",
+  "version": "1.0.0",
+  "description": "Beautiful PWA for tracking movies, TV shows, books, podcasts, games, and music with Apple-inspired design",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "npx serve .",
+    "deploy:gh": "git push origin main",
+    "deploy:cf": "npx wrangler pages publish . --project-name=media-tracker"
+  },
+  "keywords": [
+    "pwa",
+    "media-tracker",
+    "apple-design",
+    "glassmorphism",
+    "offline-first",
+    "firebase",
+    "cloud-sync"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ALGOGUY09/consumedbysk.git"
+  },
+  "homepage": "https://github.com/ALGOGUY09/consumedbysk#readme",
+  "devDependencies": {},
+  "dependencies": {}
+}

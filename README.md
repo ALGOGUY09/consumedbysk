@@ -7,11 +7,13 @@ A Progressive Web App (PWA) for tracking movies, TV shows, books, podcasts, game
 - 🎬 **Multi-Media Tracking**: Track movies, TV shows, books, podcasts, games, and music
 - 📱 **Progressive Web App**: Install on any device, works offline
 - 🎨 **Apple-Inspired Design**: Glassmorphism, blur effects, and smooth animations
+- ☁️ **Cloud Sync**: Optional cloud synchronization with Firebase (admin-protected)
 - 💾 **Offline-First**: All data stored locally using IndexedDB
 - 📊 **Statistics**: View your consumption patterns with gradient numbers
 - ⭐ **Rating System**: Rate your media from 1-5 stars
 - 🔍 **Search**: Quickly find entries with beautiful focus animations
 - 📅 **Date Filtering**: View entries by date, month, or see all
+- 🔐 **Admin Panel**: Secure admin features for data management
 - 🌐 **No Backend Required**: Completely client-side, no server needed
 - ✨ **Beautiful Animations**: Smooth transitions with Apple's timing curves
 
@@ -19,6 +21,7 @@ A Progressive Web App (PWA) for tracking movies, TV shows, books, podcasts, game
 
 - Pure HTML5, CSS3, and JavaScript (ES6+)
 - IndexedDB for local storage
+- Firebase for optional cloud sync
 - Service Workers for offline functionality
 - Web App Manifest for PWA capabilities
 - Apple-inspired design system with glassmorphism
@@ -64,6 +67,14 @@ Click the calendar dropdown in the header to:
 
 ### Editing/Deleting
 Click any entry card to edit or delete it.
+
+### Cloud Sync
+1. Click the **cloud sync** button (☁️) in the header
+2. View your sync status
+3. Click **"Sync Now"** to upload your data to the cloud
+4. For admin features, click **"Admin Settings"** (requires password)
+
+**Note**: Cloud sync is optional. The app works perfectly offline without syncing.
 
 ## 💾 Data Storage
 
@@ -115,6 +126,19 @@ The app uses Apple's design language with modern effects:
 - **2XL**: 24px
 
 ## 📊 Features in Detail
+
+### Cloud Sync (Optional)
+- ☁️ **Sync Button**: Click the cloud icon in the header
+- 🔄 **Manual Sync**: Sync your data to the cloud anytime
+- 🔐 **Admin Protected**: Admin panel requires password authentication
+- 📱 **Cross-Device**: Access your data from any device after syncing
+- 💾 **Backup**: Download complete JSON backup of your data
+- ⚙️ **Admin Features**:
+  - Auto-sync toggle
+  - Force full sync from cloud
+  - Download backup
+  - Clear cloud data
+- 🔒 **Security**: Admin password required for management features
 
 ### Media Types (with Beautiful Gradients)
 - 🎬 **Movies**: Red to orange gradient `linear-gradient(135deg, #FF3B30, #FF9500)`

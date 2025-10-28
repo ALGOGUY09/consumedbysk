@@ -243,6 +243,10 @@
             box-shadow: var(--shadow-sm);
         }
 
+        .add-btn.hidden {
+            display: none;
+        }
+
         /* Navigation - Apple style tabs */
         .nav {
             background: var(--background);
@@ -336,6 +340,21 @@
         .entry:active {
             transform: translateY(-2px);
             box-shadow: var(--shadow);
+        }
+
+        .entry.read-only {
+            cursor: default;
+        }
+
+        .entry.read-only:hover {
+            box-shadow: var(--shadow-sm);
+            transform: none;
+            border-color: var(--border-light);
+        }
+
+        .entry.read-only:active {
+            transform: none;
+            box-shadow: var(--shadow-sm);
         }
 
         .entry-header {
@@ -818,7 +837,7 @@
                     </div>
                     <div class="date-menu" id="dateMenu"></div>
                 </div>
-                <button class="add-btn" onclick="showAddForm()">
+                <button class="add-btn hidden" id="addEntryBtn" onclick="showAddForm()">
                     <span class="material-symbols-rounded">add</span>
                     Add Entry
                 </button>
@@ -1386,9 +1405,11 @@
             };
             
             const stars = entry.rating ? '⭐'.repeat(parseInt(entry.rating)) : '';
+            const readOnlyClass = isAdmin ? '' : ' read-only';
+            const clickHandler = isAdmin ? `onclick="editEntry(${entry.id})"` : '';
             
             return `
-                <div class="entry" onclick="editEntry(${entry.id})">
+                <div class="entry${readOnlyClass}" ${clickHandler}>
                     <div class="entry-header">
                         <div style="flex: 1;">
                             <div class="entry-title">
@@ -1430,6 +1451,10 @@
 
         // Form handling
         function showAddForm() {
+            if (!isAdmin) {
+                showToast('❌ Admin access required to add entries');
+                return;
+            }
             editingId = null;
             document.getElementById('formTitle').textContent = 'Add Entry';
             document.getElementById('title').value = '';
@@ -1444,6 +1469,10 @@
         }
 
         async function editEntry(id) {
+            if (!isAdmin) {
+                showToast('❌ Admin access required to edit entries');
+                return;
+            }
             editingId = id;
             const entry = await db.get(id);
             
@@ -1565,6 +1594,20 @@
             }
         }
         
+        // Update UI based on admin status
+        function updateUIForAdminStatus() {
+            const addBtn = document.getElementById('addEntryBtn');
+            if (isAdmin) {
+                addBtn.classList.remove('hidden');
+            } else {
+                addBtn.classList.add('hidden');
+            }
+            // Re-render current view to update entry cards
+            if (currentView) {
+                navigate(currentView);
+            }
+        }
+
         // Admin login
         function adminLogin(event) {
             event.preventDefault();
@@ -1576,6 +1619,7 @@
                 hideAdminLogin();
                 showAdminPanel();
                 document.getElementById('adminBadge').classList.add('show');
+                updateUIForAdminStatus();
                 showToast('✅ Admin access granted');
             } else {
                 showToast('❌ Invalid password');
@@ -1604,6 +1648,7 @@
             localStorage.removeItem('autoSync');
             hideAdminPanel();
             document.getElementById('adminBadge').classList.remove('show');
+            updateUIForAdminStatus();
             showToast('Admin logged out');
         }
         
@@ -1800,6 +1845,9 @@
             if (savedAutoSync === 'true') {
                 autoSync = true;
             }
+            
+            // Update UI based on admin status
+            updateUIForAdminStatus();
         }
         
         // Initialize sync on app start

@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: media-tracker-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    healthCheckPath: /api/entries
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    disk:
+      name: media-tracker-data
+      mountPath: /opt/render/project/src
+      sizeGB: 1

@@ -7,7 +7,7 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "media-tracker-db"
-database_id = "" # Will be filled after creating D1 database
+database_id = "bd00e0a4-1dec-44dc-9a14-889688281d4c" # D1 database created
 
 # Environment variables
 [vars]

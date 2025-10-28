@@ -1,5 +1,5 @@
 # Media Tracker - PWA with Apple-Inspired Design
-
+https://consumedbysr.pages.dev/
 A Progressive Web App (PWA) for tracking movies, TV shows, books, podcasts, games, and music with beautiful Apple-inspired design aesthetics featuring glassmorphism, blur effects, and smooth animations.
 
 ## ✨ Features

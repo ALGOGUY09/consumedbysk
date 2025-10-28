@@ -10,7 +10,9 @@ const CONFIG = {
     // For Render: 'https://your-app.onrender.com'
     API_BASE_URL: window.location.hostname === 'localhost' 
         ? 'http://localhost:3000' 
-        : 'https://media-tracker-api.2-proposal005.workers.dev', // ✅ Cloudflare Worker Backend
+        : window.location.hostname.includes('pages.dev') || window.location.hostname === 'consumedbysr.pages.dev'
+            ? 'https://media-tracker-api.2-proposal005.workers.dev'  // Cloudflare Pages deployment
+            : 'https://media-tracker-api.2-proposal005.workers.dev', // ✅ Cloudflare Worker Backend
     
     // Storage mode: 'backend' (recommended for cross-platform) or 'local' (IndexedDB only)
     STORAGE_MODE: 'backend',

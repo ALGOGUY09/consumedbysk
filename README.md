@@ -40,6 +40,13 @@ A Progressive Web App (PWA) for tracking movies, TV shows, books, podcasts, game
 - Token-based session authentication
 - CORS support for secure cross-origin requests
 
+## 🌐 Access Your App
+
+### Live URLs
+- **Cloudflare Pages**: https://consumedbysr.pages.dev ⚡ NEW!
+- **GitHub Pages**: https://algoguy09.github.io/consumedbysk
+- **Backend API**: https://media-tracker-api.2-proposal005.workers.dev
+
 ## 📱 Installation
 
 ### As a PWA (Recommended)

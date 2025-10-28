@@ -7,20 +7,23 @@ A Progressive Web App (PWA) for tracking movies, TV shows, books, podcasts, game
 - 🎬 **Multi-Media Tracking**: Track movies, TV shows, books, podcasts, games, and music
 - 📱 **Progressive Web App**: Install on any device, works offline
 - 🎨 **Apple-Inspired Design**: Glassmorphism, blur effects, and smooth animations
+- 🗄️ **Backend Database**: SQLite database with RESTful API for data persistence
+- 👁️ **View-Only Mode**: Public users can view all entries without authentication
+- 🔐 **Admin Edit Mode**: Password-protected admin access for creating, editing, and deleting entries
 - ☁️ **Cloud Sync**: Optional cloud synchronization with Firebase (admin-protected)
-- 💾 **Offline-First**: All data stored locally using IndexedDB
+- 💾 **Dual Storage**: Backend database for production + IndexedDB for offline-first PWA
 - 📊 **Statistics**: View your consumption patterns with gradient numbers
 - ⭐ **Rating System**: Rate your media from 1-5 stars
 - 🔍 **Search**: Quickly find entries with beautiful focus animations
 - 📅 **Date Filtering**: View entries by date, month, or see all
-- 🔐 **Admin Panel**: Secure admin features for data management
-- 🌐 **No Backend Required**: Completely client-side, no server needed
+- 📤 **Import/Export**: Bulk data management for admin users
 - ✨ **Beautiful Animations**: Smooth transitions with Apple's timing curves
 
 ## 🚀 Technologies
 
+### Frontend
 - Pure HTML5, CSS3, and JavaScript (ES6+)
-- IndexedDB for local storage
+- IndexedDB for offline-first storage
 - Firebase for optional cloud sync
 - Service Workers for offline functionality
 - Web App Manifest for PWA capabilities
@@ -28,6 +31,14 @@ A Progressive Web App (PWA) for tracking movies, TV shows, books, podcasts, game
 - Backdrop filters and blur effects (-webkit-backdrop-filter)
 - Inter font (SF Pro alternative) and Material Symbols
 - Smooth cubic-bezier animations: (0.25, 0.46, 0.45, 0.94)
+
+### Backend
+- Node.js with Express framework
+- SQLite3 for reliable data persistence
+- RESTful API architecture
+- Bcrypt for password hashing
+- Token-based session authentication
+- CORS support for secure cross-origin requests
 
 ## 📱 Installation
 
@@ -38,7 +49,22 @@ A Progressive Web App (PWA) for tracking movies, TV shows, books, podcasts, game
 4. The app will work offline once installed!
 
 ### Local Development
+
+#### Option 1: With Backend (Recommended for full features)
+```bash
+# Install dependencies
+npm install
+
+# Start the backend server
+npm start
+
+# Open http://localhost:3000 in your browser
+```
+
+#### Option 2: Static PWA (Frontend only)
 Simply open `index.html` in any modern web browser. No build process required!
+
+**Note**: For admin features and database persistence, use the backend server (Option 1). See [BACKEND_SETUP.md](./BACKEND_SETUP.md) for detailed setup instructions.
 
 ## 🎯 How to Use
 
@@ -78,12 +104,24 @@ Click any entry card to edit or delete it.
 
 ## 💾 Data Storage
 
-All data is stored locally in your browser using IndexedDB:
-- **Database**: `MediaTracker`
+### Backend Database (Recommended)
+When running with the Node.js backend:
+- **Database**: SQLite (`media_tracker.db`)
+- **Location**: Server-side persistent storage
+- **Access**: Public read-only, admin edit mode
+- **API**: RESTful endpoints for all operations
+- **Security**: Password-protected admin access
+- **Backup**: Easy database file backup
+
+### Frontend Storage (PWA Mode)
+For offline-first PWA functionality:
+- **Database**: IndexedDB (`MediaTracker`)
 - **Store**: `entries`
-- No cloud sync or external services
-- Data persists between sessions
-- Survives browser restarts
+- **Location**: Browser local storage
+- **Sync**: Optional Firebase cloud sync
+- **Persistence**: Data survives browser restarts
+
+See [BACKEND_SETUP.md](./BACKEND_SETUP.md) for backend configuration and API documentation.
 
 ## 🎨 Apple-Inspired Design System
 
@@ -127,18 +165,22 @@ The app uses Apple's design language with modern effects:
 
 ## 📊 Features in Detail
 
+### Admin Features
+- 🔐 **Protected Access**: Password-protected admin authentication
+- ✏️ **Full Edit Mode**: Create, update, and delete entries
+- 👁️ **Public View Mode**: Non-admin users can only view entries
+- 📤 **Import/Export**: Bulk data management with JSON format
+- 📊 **Admin Panel**: Comprehensive data management interface
+- 💾 **Backup & Restore**: Download complete database backups
+- ⚙️ **Settings Management**: Configure auto-sync and other options
+- 🔒 **Session Security**: Token-based authentication with expiration
+
 ### Cloud Sync (Optional)
 - ☁️ **Sync Button**: Click the cloud icon in the header
 - 🔄 **Manual Sync**: Sync your data to the cloud anytime
-- 🔐 **Admin Protected**: Admin panel requires password authentication
 - 📱 **Cross-Device**: Access your data from any device after syncing
-- 💾 **Backup**: Download complete JSON backup of your data
-- ⚙️ **Admin Features**:
-  - Auto-sync toggle
-  - Force full sync from cloud
-  - Download backup
-  - Clear cloud data
-- 🔒 **Security**: Admin password required for management features
+- 🔄 **Auto-Sync**: Enable automatic synchronization (admin only)
+- 🌐 **Firebase Integration**: Optional cloud backup with Firestore
 
 ### Media Types (with Beautiful Gradients)
 - 🎬 **Movies**: Red to orange gradient `linear-gradient(135deg, #FF3B30, #FF9500)`

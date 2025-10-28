@@ -4,7 +4,8 @@
   "description": "Beautiful PWA for tracking movies, TV shows, books, podcasts, games, and music with Apple-inspired design",
   "main": "index.html",
   "scripts": {
-    "start": "python3 -m http.server 8000",
+    "start": "node server.js",
+    "dev": "node server.js",
     "serve": "npx serve .",
     "deploy:gh": "git push origin main",
     "deploy:cf": "npx wrangler pages publish . --project-name=media-tracker"
@@ -26,5 +27,10 @@
   },
   "homepage": "https://github.com/ALGOGUY09/consumedbysk#readme",
   "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3"
+  }
 }

@@ -1,0 +1,18 @@
+name = "media-tracker-api"
+main = "src/worker.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "media-tracker-db"
+database_id = "" # Will be filled after creating D1 database
+
+# Environment variables
+[vars]
+NODE_ENV = "production"
+ADMIN_PASSWORD_HASH = "$2a$10$rKZXEPeHQrMjCh8v7NyMYO5BnLPGq5SQjFQhXhZJ0PqGPp0uLJGSC" # bcrypt hash of 'play123'
+
+# CORS origins
+CORS_ORIGINS = "https://algoguy09.github.io,http://localhost:3000"

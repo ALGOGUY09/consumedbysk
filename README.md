@@ -48,9 +48,43 @@ A Progressive Web App (PWA) for tracking movies, TV shows, books, podcasts, game
 3. Or use the browser menu: "Install app" or "Add to Home Screen"
 4. The app will work offline once installed!
 
-### Local Development
+### 🚀 Deploy Your Own (5 Minutes)
 
-#### Option 1: With Backend (Recommended for full features)
+#### ⚡ Option 1: Cloudflare Workers + D1 (RECOMMENDED) ⭐
+
+**Best choice: Global edge network, always-on, 100% free!**
+
+```bash
+# Install Wrangler CLI
+npm install -g wrangler
+
+# Login to Cloudflare
+wrangler login
+
+# Create D1 database
+wrangler d1 create media-tracker-db
+
+# Deploy Worker
+wrangler deploy --config wrangler-backend.toml
+```
+
+**See [CLOUDFLARE_DEPLOY.md](./CLOUDFLARE_DEPLOY.md) for complete guide!**
+
+**Benefits:**
+- ✅ Global edge network (300+ cities)
+- ✅ Always-on, no cold starts
+- ✅ 100,000 requests/day free
+- ✅ 5GB database free
+- ✅ Instant response worldwide
+
+#### Option 2: Render.com
+
+**Good alternative: Simple setup, persistent SQLite**
+
+See [RENDER_DEPLOY.md](./RENDER_DEPLOY.md) for complete guide.
+
+#### Option 3: Local Development
+
 ```bash
 # Install dependencies
 npm install
@@ -61,10 +95,10 @@ npm start
 # Open http://localhost:3000 in your browser
 ```
 
-#### Option 2: Static PWA (Frontend only)
+#### Option 4: Static PWA (Frontend only)
 Simply open `index.html` in any modern web browser. No build process required!
 
-**Note**: For admin features and database persistence, use the backend server (Option 1). See [BACKEND_SETUP.md](./BACKEND_SETUP.md) for detailed setup instructions.
+**Note**: For cross-platform sync and admin features, deploy to Cloudflare (recommended). See deployment guides for detailed instructions.
 
 ## 🎯 How to Use
 

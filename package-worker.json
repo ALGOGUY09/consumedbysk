@@ -1,0 +1,27 @@
+{
+  "name": "media-tracker-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker backend for Media Tracker",
+  "main": "src/worker.js",
+  "scripts": {
+    "deploy": "wrangler deploy --config wrangler-backend.toml",
+    "dev": "wrangler dev --config wrangler-backend.toml",
+    "tail": "wrangler tail --config wrangler-backend.toml",
+    "d1:create": "wrangler d1 create media-tracker-db",
+    "d1:list": "wrangler d1 list",
+    "d1:query": "wrangler d1 execute media-tracker-db --command",
+    "d1:backup": "wrangler d1 export media-tracker-db --output backup.sql"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "d1",
+    "serverless",
+    "edge"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

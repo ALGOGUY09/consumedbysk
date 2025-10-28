@@ -4,12 +4,13 @@
  */
 
 const CONFIG = {
-    // Backend API URL - change this when deploying to production
+    // Backend API URL - Update after deploying to Cloudflare Workers
     // For local development: 'http://localhost:3000'
-    // For production: 'https://your-backend-url.com'
+    // For Cloudflare Workers: 'https://media-tracker-api.YOUR_SUBDOMAIN.workers.dev'
+    // For Render: 'https://your-app.onrender.com'
     API_BASE_URL: window.location.hostname === 'localhost' 
         ? 'http://localhost:3000' 
-        : 'https://your-render-app.onrender.com', // Will update after deployment
+        : 'https://media-tracker-api.YOUR_SUBDOMAIN.workers.dev', // 🔥 Update with YOUR Worker URL
     
     // Storage mode: 'backend' (recommended for cross-platform) or 'local' (IndexedDB only)
     STORAGE_MODE: 'backend',

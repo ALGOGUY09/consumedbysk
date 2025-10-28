@@ -1,19 +1,15 @@
+# Cloudflare Pages + Functions configuration
 name = "media-tracker"
+pages_build_output_dir = "."
 compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
 
-[site]
-bucket = "./"
+# D1 Database binding for Pages Functions
+[[d1_databases]]
+binding = "DB"
+database_name = "media-tracker-db"
+database_id = "" # Add your D1 database ID here after creating it
 
-# Cloudflare Pages configuration
-# This file is optional - Cloudflare Pages can deploy without it
-# But it's useful for advanced configuration
-
-# Build configuration (all optional for static sites)
-# Cloudflare Pages will serve your files directly
-
-# Custom headers (optional)
-# [[headers]]
-# for = "/*"
-#   [headers.values]
-#   X-Frame-Options = "DENY"
-#   X-Content-Type-Options = "nosniff"
+# Environment variables
+[vars]
+NODE_ENV = "production"

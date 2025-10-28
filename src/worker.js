@@ -40,8 +40,6 @@ async function initDatabase(env) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
       mediaType TEXT NOT NULL,
-      creator TEXT,
-      rating INTEGER,
       url TEXT,
       date TEXT NOT NULL,
       notes TEXT,
@@ -248,16 +246,16 @@ async function handleRequest(request, env) {
     // Create entry
     if (method === 'POST' && path === '/api/admin/entries') {
       const entry = await request.json();
-      const { title, mediaType, creator, rating, url, date, notes } = entry;
+      const { title, mediaType, url, date, notes } = entry;
 
       if (!title || !mediaType || !date) {
         return jsonResponse({ error: 'Title, mediaType, and date required' }, 400);
       }
 
       const result = await env.DB.prepare(`
-        INSERT INTO entries (title, mediaType, creator, rating, url, date, notes)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `).bind(title, mediaType, creator, rating, url, date, notes).run();
+        INSERT INTO entries (title, mediaType, url, date, notes)
+        VALUES (?, ?, ?, ?, ?)
+      `).bind(title, mediaType, url, date, notes).run();
 
       return jsonResponse({
         success: true,
@@ -270,14 +268,14 @@ async function handleRequest(request, env) {
     if (method === 'PUT' && path.startsWith('/api/admin/entries/')) {
       const id = path.split('/').pop();
       const entry = await request.json();
-      const { title, mediaType, creator, rating, url, date, notes } = entry;
+      const { title, mediaType, url, date, notes } = entry;
 
       const result = await env.DB.prepare(`
         UPDATE entries 
-        SET title = ?, mediaType = ?, creator = ?, rating = ?, url = ?, date = ?, notes = ?,
+        SET title = ?, mediaType = ?, url = ?, date = ?, notes = ?,
             updatedAt = CURRENT_TIMESTAMP
         WHERE id = ?
-      `).bind(title, mediaType, creator, rating, url, date, notes, id).run();
+      `).bind(title, mediaType, url, date, notes, id).run();
 
       if (result.meta.changes === 0) {
         return jsonResponse({ error: 'Entry not found' }, 404);
@@ -317,13 +315,11 @@ async function handleRequest(request, env) {
       for (const entry of entries) {
         if (entry.title && entry.mediaType && entry.date) {
           await env.DB.prepare(`
-            INSERT INTO entries (title, mediaType, creator, rating, url, date, notes)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO entries (title, mediaType, url, date, notes)
+            VALUES (?, ?, ?, ?, ?)
           `).bind(
             entry.title,
             entry.mediaType,
-            entry.creator || null,
-            entry.rating || null,
             entry.url || null,
             entry.date,
             entry.notes || null

@@ -269,10 +269,10 @@ app.put('/api/admin/entries/:id', requireAdmin, (req, res) => {
 
     db.run(
         `UPDATE entries 
-         SET title = ?, mediaType = ?, creator = ?, rating = ?, url = ?, date = ?, notes = ?, 
+         SET title = ?, mediaType = ?, url = ?, date = ?, notes = ?, 
              updatedAt = CURRENT_TIMESTAMP
          WHERE id = ?`,
-        [title, mediaType, creator, rating, url, date, notes, id],
+        [title, mediaType, url, date, notes, id],
         function(err) {
             if (err) {
                 return res.status(500).json({ error: err.message });

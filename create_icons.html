@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head><title>Generate Icons</title></head>
+<body>
+<canvas id="canvas192" width="192" height="192"></canvas>
+<canvas id="canvas512" width="512" height="512"></canvas>
+<script>
+function createIcon(canvasId, size) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  
+  // Blue gradient background
+  const gradient = ctx.createLinearGradient(0, 0, size, size);
+  gradient.addColorStop(0, '#1E88E5');
+  gradient.addColorStop(1, '#1565C0');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
+  
+  // Add rounded corners
+  ctx.globalCompositeOperation = 'destination-in';
+  ctx.beginPath();
+  ctx.roundRect(0, 0, size, size, size * 0.2);
+  ctx.fill();
+  ctx.globalCompositeOperation = 'source-over';
+  
+  // Draw film icon
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = `bold ${size * 0.5}px Arial`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('🎬', size / 2, size / 2);
+  
+  return canvas.toDataURL('image/png');
+}
+
+const icon192 = createIcon('canvas192', 192);
+const icon512 = createIcon('canvas512', 512);
+
+console.log('Icons generated');
+document.body.innerHTML += `<p>Icon 192: ${icon192.substring(0, 50)}...</p>`;
+document.body.innerHTML += `<p>Icon 512: ${icon512.substring(0, 50)}...</p>`;
+</script>
+</body>
+</html>

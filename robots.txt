@@ -1,0 +1,16 @@
+# robots.txt for Media Tracker PWA
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://algoguy09.github.io/consumedbysk/sitemap.xml
+
+# Disallow admin paths (if any)
+Disallow: /admin/
+Disallow: /*.json$
+
+# Allow PWA files
+Allow: /manifest.json
+Allow: /sw.js
+Allow: /icon-*.png

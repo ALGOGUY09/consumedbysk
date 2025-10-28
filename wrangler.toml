@@ -1,0 +1,19 @@
+name = "media-tracker"
+compatibility_date = "2024-01-01"
+
+[site]
+bucket = "./"
+
+# Cloudflare Pages configuration
+# This file is optional - Cloudflare Pages can deploy without it
+# But it's useful for advanced configuration
+
+# Build configuration (all optional for static sites)
+# Cloudflare Pages will serve your files directly
+
+# Custom headers (optional)
+# [[headers]]
+# for = "/*"
+#   [headers.values]
+#   X-Frame-Options = "DENY"
+#   X-Content-Type-Options = "nosniff"
